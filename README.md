@@ -1,4 +1,5 @@
 ### Hola Mundo🙌
+Kevin del Angel Salazar Cruz Equipo2 (Pilas)
 class Pila:
     def _init_(self):
         self.items = []
