@@ -1,0 +1,69 @@
+class Nodo:
+    def __init__(self, valor):
+        self.valor = valor
+        self.hijos = []
+
+    def agregar_hijo(self, hijo):
+        self.hijos.append(hijo)
+
+class Arbol:
+    def __init__(self, valor_raiz):
+        self.raiz = Nodo(valor_raiz)
+
+    def agregar_nodo(self, valor_padre, valor_nuevo):
+        self._agregar_nodo_recursivo(self.raiz, valor_padre, valor_nuevo)
+
+    def _agregar_nodo_recursivo(self, nodo_actual, valor_padre, valor_nuevo):
+        if nodo_actual.valor == valor_padre:
+            nodo_actual.agregar_hijo(Nodo(valor_nuevo))
+            return True
+        else:
+            for hijo in nodo_actual.hijos:
+                if self._agregar_nodo_recursivo(hijo, valor_padre, valor_nuevo):
+                    return True
+        return False
+
+    def imprimir(self):
+        print("Árbol completo:")
+        self._imprimir_recursivo(self.raiz)
+
+    def _imprimir_recursivo(self, nodo_actual, nivel=0):
+        print("  " * nivel + str(nodo_actual.valor))
+        for hijo in nodo_actual.hijos:
+            self._imprimir_recursivo(hijo, nivel + 1)
+
+    def imprimir_ramas(self):
+        print("Ramas del árbol:")
+        self._imprimir_ramas_recursivo(self.raiz, [])
+
+    def _imprimir_ramas_recursivo(self, nodo_actual, ruta):
+        if not nodo_actual.hijos:  
+            print(" -> ".join(map(str, ruta + [nodo_actual.valor])))
+        else:
+            for hijo in nodo_actual.hijos:
+                self._imprimir_ramas_recursivo(hijo, ruta + [nodo_actual.valor])
+
+    def imprimir_hojas(self):
+        print("Hojas del árbol:")
+        self._imprimir_hojas_recursivo(self.raiz)
+
+    def _imprimir_hojas_recursivo(self, nodo_actual):
+        if not nodo_actual.hijos:  
+            print(nodo_actual.valor)
+        else:
+            for hijo in nodo_actual.hijos:
+                self._imprimir_hojas_recursivo(hijo)
+
+if __name__ == "__main__":
+    arbol = Arbol("A")
+    arbol.agregar_nodo("A", "B")
+    arbol.agregar_nodo("A", "C")
+    arbol.agregar_nodo("B", "D")
+    arbol.agregar_nodo("B", "E")
+    arbol.agregar_nodo("C", "F")
+
+    arbol.imprimir()
+    print()
+    arbol.imprimir_ramas()
+    print()
+    arbol.imprimir_hojas()
