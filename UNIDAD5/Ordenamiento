@@ -1,0 +1,148 @@
+class Estudiante:
+    def __init__(self, nombre, calificacion):
+        self.nombre = nombre
+        self.calificacion = calificacion
+
+    def __repr__(self):
+        return f'{self.nombre} - {self.calificacion}'
+
+def merge_sort(estudiantes):
+    if len(estudiantes) <= 1:
+        return estudiantes
+
+    mid = len(estudiantes) // 2
+    izquierda = merge_sort(estudiantes[:mid])
+    derecha = merge_sort(estudiantes[mid:])
+
+    return merge(izquierda, derecha)
+
+def merge(izquierda, derecha):
+    result = []
+    while izquierda and derecha:
+        if izquierda[0].calificacion >= derecha[0].calificacion:
+            result.append(izquierda.pop(0))
+        else:
+            result.append(derecha.pop(0))
+    result.extend(izquierda or derecha)
+    return result
+
+estudiantes = [
+    Estudiante('Estudiante 1', 85),
+    Estudiante('Estudiante 2', 92),
+    Estudiante('Estudiante 3', 78),
+    Estudiante('Estudiante 4', 62),
+    Estudiante('Estudiante 5', 78),
+    Estudiante('Estudiante 6', 88),
+     Estudiante('Estudiante 7', 98),
+     Estudiante('Estudiante 8', 58),
+    Estudiante('Estudiante 9', 71),
+    Estudiante('Estudiante 10', 80),
+]
+
+estudiantes_ordenados = merge_sort(estudiantes)
+print(estudiantes_ordenados)
+
+
+
+class Libro:
+    def __init__(self, titulo, fecha_publicacion):
+        self.titulo = titulo
+        self.fecha_publicacion = fecha_publicacion
+
+    def __repr__(self):
+        return f'{self.titulo} - {self.fecha_publicacion}'
+
+def ordenar_mezcla(libros):
+    if len(libros) <= 1:
+        return libros
+
+    medio = len(libros) // 2
+    izquierda = ordenar_mezcla(libros[:medio])
+    derecha = ordenar_mezcla(libros[medio:])
+
+    return mezclar(izquierda, derecha)
+
+def mezclar(izquierda, derecha):
+    resultado = []
+    while izquierda and derecha:
+        if izquierda[0].fecha_publicacion <= derecha[0].fecha_publicacion:
+            resultado.append(izquierda.pop(0))
+        else:
+            resultado.append(derecha.pop(0))
+    resultado.extend(izquierda or derecha)
+    return resultado
+
+libros = [
+    Libro('Libro 1', '2020-01-01'),
+    Libro('Libro 2', '2018-05-23'),
+    Libro('Libro 3', '2019-07-15'),
+    Libro('Libro 4', '2021-11-09'),
+    Libro('Libro 5', '2017-03-12')
+]
+
+libros_ordenados = ordenar_mezcla(libros)
+print(libros_ordenados)
+
+
+
+
+
+class Tarea:
+    def __init__(self, descripcion, prioridad):
+        self.descripcion = descripcion
+        self.prioridad = prioridad
+
+    def __str__(self):
+        return f"{self.descripcion} - Prioridad: {self.prioridad}"
+
+class OrdenamientoTareas:
+    def __init__(self, tareas):
+        self.tareas = tareas
+
+    def ordenar_tareas(self, tareas):
+        if len(tareas) <= 1:
+            return tareas
+        else:
+            medio = len(tareas) // 2
+            mitad_izquierda = tareas[:medio]
+            mitad_derecha = tareas[medio:]
+
+            self.ordenar_tareas(mitad_izquierda)
+            self.ordenar_tareas(mitad_derecha)
+
+            i = 0
+            j = 0
+            k = 0
+
+            while i < len(mitad_izquierda) and j < len(mitad_derecha):
+                if mitad_izquierda[i].prioridad < mitad_derecha[j].prioridad:
+                    tareas[k] = mitad_izquierda[i]
+                    i += 1
+                else:
+                    tareas[k] = mitad_derecha[j]
+                    j += 1
+                k += 1
+
+            while i < len(mitad_izquierda):
+                tareas[k] = mitad_izquierda[i]
+                i += 1
+                k += 1
+
+            while j < len(mitad_derecha):
+                tareas[k] = mitad_derecha[j]
+                j += 1
+                k += 1
+
+    def ordenar_por_prioridad(self):
+        self.ordenar_tareas(self.tareas)
+        return self.tareas
+
+tareas = [Tarea("Hacer la compra", 2), Tarea("Llamar al médico", 1), Tarea("Preparar la presentación", 3),
+          Tarea("Enviar correo electrónico", 2), Tarea("Hacer ejercicio", 1), Tarea("Revisar informe", 3),
+          Tarea("Ir al banco", 1), Tarea("Comprar regalos", 2), Tarea("Planificar vacaciones", 3),
+          Tarea("Estudiar para el examen", 1), Tarea("Cocinar la cena", 2), Tarea("Llevar el coche al taller", 3)]
+
+ordenador_tareas = OrdenamientoTareas(tareas)
+tareas_ordenadas = ordenador_tareas.ordenar_por_prioridad()
+for tarea in tareas_ordenadas:
+    print(tarea)
